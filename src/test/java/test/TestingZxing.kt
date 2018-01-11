@@ -19,6 +19,9 @@ import javax.imageio.ImageIO
 
 
 class TestingZxing {
+
+    val testFile = System.getProperty("java.io.tmpdir") + "/test.png"
+
     @Test
     fun testDecode() {
         assertEquals("https://www.shopify.com", decode(getFileFromResources("qrcode.png")))
@@ -29,10 +32,10 @@ class TestingZxing {
     @Test
     fun testEncode() {
         encodeAsQRcode("haha")
-        assertEquals("haha", decode("/tmp/test.png"))
+        assertEquals("haha", decode(testFile))
 
-        encodeAsBarcode("012345678912HAHA")
-        assertEquals("012345678912HAHA", decode("/tmp/test.png"))
+        encodeAsBarcode("0123456789")
+        assertEquals("0123456789", decode(testFile))
     }
 
     fun getFileFromResources(filename: String) = ClassLoader.getSystemResource(filename).file
@@ -49,7 +52,7 @@ class TestingZxing {
     fun encodeAsQRcode(string: String) {
         val matrix = MultiFormatWriter().encode(string, BarcodeFormat.QR_CODE, 200, 200)
         val bufferedImage = MatrixToImageWriter.toBufferedImage(matrix)
-        val outputfile = File("/tmp/test.png")
+        val outputfile = File(testFile)
         ImageIO.write(bufferedImage, "png", outputfile)
     }
 
@@ -58,9 +61,9 @@ class TestingZxing {
         val heightCode = 120
         val heightCaption = 30
 
-        val matrix = MultiFormatWriter().encode(string, BarcodeFormat.CODE_39, width, heightCode)
+        val matrix = MultiFormatWriter().encode(string, BarcodeFormat.ITF, width, heightCode)
         val codeImage = MatrixToImageWriter.toBufferedImage(matrix)
-        val outputfile = File("/tmp/test.png")
+        val outputfile = File(testFile)
 
         // Merge code and caption images
         val combined = BufferedImage(width, heightCode + heightCaption, BufferedImage.TYPE_INT_ARGB)
