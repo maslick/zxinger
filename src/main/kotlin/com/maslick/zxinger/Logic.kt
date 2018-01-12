@@ -1,9 +1,6 @@
 package com.maslick.zxinger
 
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.BinaryBitmap
-import com.google.zxing.MultiFormatReader
-import com.google.zxing.MultiFormatWriter
+import com.google.zxing.*
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource
 import com.google.zxing.client.j2se.MatrixToImageWriter
 import com.google.zxing.common.HybridBinarizer
@@ -56,7 +53,15 @@ class Logic {
         val bais = ByteArrayInputStream(img)
         val source = BufferedImageLuminanceSource(ImageIO.read(bais))
         val bitmap = BinaryBitmap(HybridBinarizer(source))
-        return MultiFormatReader().decode(bitmap).text
+        try {
+            return MultiFormatReader().decode(bitmap).text
+        }
+        catch (e: NotFoundException) {
+            return "not found"
+        }
+        catch (e: Exception) {
+            return "error!"
+        }
     }
 
     private fun createCaptionImage(w: Int, h: Int, string: String): BufferedImage {
