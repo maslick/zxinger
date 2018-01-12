@@ -1,8 +1,12 @@
 package com.maslick.zxinger
 
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.MultiFormatReader
 import com.google.zxing.MultiFormatWriter
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource
 import com.google.zxing.client.j2se.MatrixToImageWriter
+import com.google.zxing.common.HybridBinarizer
 import org.springframework.stereotype.Controller
 import java.awt.Color
 import java.awt.Font
@@ -11,6 +15,9 @@ import java.awt.Rectangle
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import javax.imageio.ImageIO
+import java.io.ByteArrayInputStream
+
+
 
 @Controller
 class Logic {
@@ -33,7 +40,6 @@ class Logic {
         val baos = ByteArrayOutputStream()
         ImageIO.write(combined, "png", baos)
         return baos.toByteArray()
-
     }
 
     fun encodeAsQRcode(string: String): ByteArray? {
@@ -44,6 +50,13 @@ class Logic {
         val baos = ByteArrayOutputStream()
         ImageIO.write(bufferedImage, "png", baos)
         return baos.toByteArray()
+    }
+
+    fun decodeCode(img: ByteArray): String? {
+        val bais = ByteArrayInputStream(img)
+        val source = BufferedImageLuminanceSource(ImageIO.read(bais))
+        val bitmap = BinaryBitmap(HybridBinarizer(source))
+        return MultiFormatReader().decode(bitmap).text
     }
 
     private fun createCaptionImage(w: Int, h: Int, string: String): BufferedImage {

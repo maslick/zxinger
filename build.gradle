@@ -42,9 +42,17 @@ dependencies {
 
     // spring
     compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 
     // apache
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    // Retrofit
+    testCompile 'com.squareup.retrofit2:retrofit:2.3.0'
+    testCompile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    testCompile 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    testCompile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    testCompile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 }
 
 compileKotlin {
