@@ -22,6 +22,11 @@ class RestController {
         return controller.encodeAsQRcode(string)!!
     }
 
+    @GetMapping(value = ["pdf417/{string}"], produces = arrayOf(MediaType.IMAGE_PNG_VALUE))
+    fun getPDF417code(@PathVariable(name = "string") string: String): ByteArray {
+        return controller.encodeAsPDF417(string)!!
+    }
+
     @PostMapping("decode")
     fun decodeImage(@RequestParam("picture") file: MultipartFile): String {
         return controller.decodeCode(file.bytes)!!

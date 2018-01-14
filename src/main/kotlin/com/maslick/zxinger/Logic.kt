@@ -49,6 +49,16 @@ class Logic {
         return baos.toByteArray()
     }
 
+    fun encodeAsPDF417(string: String): ByteArray? {
+        val matrix = MultiFormatWriter().encode(string, BarcodeFormat.PDF_417, 300, 200)
+        val bufferedImage = MatrixToImageWriter.toBufferedImage(matrix)
+
+        // Return byte array
+        val baos = ByteArrayOutputStream()
+        ImageIO.write(bufferedImage, "png", baos)
+        return baos.toByteArray()
+    }
+
     fun decodeCode(img: ByteArray): String? {
         val bais = ByteArrayInputStream(img)
         val source = BufferedImageLuminanceSource(ImageIO.read(bais))
