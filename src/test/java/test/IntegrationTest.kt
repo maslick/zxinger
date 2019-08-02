@@ -40,7 +40,7 @@ class IntegrationTest {
                 .baseUrl("http://localhost:8080")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build()
-        return retrofit.create<RetrofitCode>(RetrofitCode::class.java)
+        return retrofit.create(RetrofitCode::class.java)
     }
 
     interface RetrofitCode {

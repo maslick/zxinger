@@ -12,17 +12,17 @@ class RestController {
 
     @Autowired lateinit var controller: Logic
 
-    @GetMapping(value = ["bar/{string}"], produces = arrayOf(MediaType.IMAGE_PNG_VALUE))
+    @GetMapping(value = ["bar/{string}"], produces = [MediaType.IMAGE_PNG_VALUE])
     fun getBarcode(@PathVariable(name = "string") string: String): ByteArray {
         return controller.encodeAsBarcode(string)!!
     }
 
-    @GetMapping(value = ["qr/{string}"], produces = arrayOf(MediaType.IMAGE_PNG_VALUE))
+    @GetMapping(value = ["qr/{string}"], produces = [MediaType.IMAGE_PNG_VALUE])
     fun getQRcode(@PathVariable(name = "string") string: String): ByteArray {
         return controller.encodeAsQRcode(string)!!
     }
 
-    @GetMapping(value = ["pdf417/{string}"], produces = arrayOf(MediaType.IMAGE_PNG_VALUE))
+    @GetMapping(value = ["pdf417/{string}"], produces = [MediaType.IMAGE_PNG_VALUE])
     fun getPDF417code(@PathVariable(name = "string") string: String): ByteArray {
         return controller.encodeAsPDF417(string)!!
     }
