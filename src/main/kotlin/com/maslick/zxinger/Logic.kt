@@ -10,10 +10,9 @@ import java.awt.Font
 import java.awt.Graphics
 import java.awt.Rectangle
 import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import javax.imageio.ImageIO
-import java.io.ByteArrayInputStream
-
 
 
 @Controller
@@ -40,7 +39,10 @@ class Logic {
     }
 
     fun encodeAsQRcode(string: String): ByteArray? {
-        val matrix = MultiFormatWriter().encode(string, BarcodeFormat.QR_CODE, 200, 200)
+        val hints = hashMapOf<EncodeHintType, Any>()
+        hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
+        hints[EncodeHintType.MARGIN] = 0
+        val matrix = MultiFormatWriter().encode(string, BarcodeFormat.QR_CODE, 200, 200, hints)
         val bufferedImage = MatrixToImageWriter.toBufferedImage(matrix)
 
         // Return byte array
